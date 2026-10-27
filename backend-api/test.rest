@@ -1,8 +1,0 @@
-### TEST GET / WEBSITE
-GET http://localhost:3020
-
-### TEST GET /dashboard WEBSITE
-GET http://localhost:3020/dashboard
-
-### DATA ENDPOINT
-GET http://localhost:3020/api/data
