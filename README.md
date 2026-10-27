@@ -4,7 +4,7 @@ share their reviews with others, and list their most recent and their top few fa
 
 # Project Board
 
-Progress is tracked on our GitHub Project board. See CONTRIBUTING.md for how we use it.
+Progress is tracked on our Jira ChordCritic Developement space. See CONTRIBUTING.md for how we use it.
 
 # Branching & Contributing
 
