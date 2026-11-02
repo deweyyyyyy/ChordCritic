@@ -4,6 +4,7 @@ import cors from "cors";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { pool } from "./db.js";
+import searchRoutes from "./searchRoutes.js";
 
 const app = express();
 app.use(express.json());
@@ -82,7 +83,8 @@ app.get("/api/auth/me", requireAuth, async (req, res) => {
   res.json({ user: rows[0] });
 });
 
-// Express 5 forwards thrown async errors here
+app.use("/api", searchRoutes);
+
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ error: "internal server error" });
