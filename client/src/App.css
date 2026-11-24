@@ -70,6 +70,13 @@
   }
 }
 
+#signup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
 #next-steps {
   display: flex;
   border-top: 1px solid var(--border);

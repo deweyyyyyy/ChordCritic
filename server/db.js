@@ -8,9 +8,9 @@ if (!connectionString) {
 }
 
 export const pool = new pg.Pool({
-  connectionString,
-  // Render and Neon URLs require SSL; local Postgres does not.
-  ssl: connectionString.includes("render.com") || connectionString.includes("neon.tech")
-    ? { rejectUnauthorized: false }
-    : false,
+  user: "postgres",
+  password: "TestPassword",
+  host: "localhost",
+  port: 5432,
+  database: "chordcritic",
 });

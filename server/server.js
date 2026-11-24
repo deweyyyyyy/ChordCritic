@@ -49,12 +49,10 @@ app.post("/api/auth/register", async (req, res) => {
     const { rows } = await pool.query(sql, [username.trim(), email, password_hash]);
     res.status(201).json({ token: signToken(rows[0]), user: rows[0] });
   } catch (err) {
-    if (err.code === "23505") {
-      const field = err.constraint?.includes("email") ? "email" : "username";
-      return res.status(409).json({ error: "that " + field + " is already taken" });
-    }
+    console.error(err);
+    res.status(500).json({ error: "internal server error", detail: err.message});
     throw err;
-  }
+  } 
 });
 
 app.post("/api/auth/login", async (req, res) => {
