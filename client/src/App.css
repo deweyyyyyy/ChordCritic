@@ -77,6 +77,21 @@
   z-index: 1000;
 }
 
+#signup button {
+  font-size: 16px;
+  padding: 6px 14px;
+  border-radius: 6px;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+#signup button:hover {
+  border-color: var(--accent-border);
+}
+
 #next-steps {
   display: flex;
   border-top: 1px solid var(--border);

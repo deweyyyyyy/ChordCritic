@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import heroImg from '../assets/hero.png'
 import reactLogo from '../assets/react.svg'
 import viteLogo from '../assets/vite.svg'
+import { Link, Text } from "@chakra-ui/react"
+import { Avatar } from "@chakra-ui/react"
 import '../App.css'
 
 function Home({ user, onLogout }) {
@@ -15,16 +17,9 @@ function Home({ user, onLogout }) {
         <div>
           <h1>Welcome to ChordCritic</h1>
           <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
+            Create an account with <code>Sign Up</code> or if you have an account <code>Log In</code> to get started!
           </p>
         </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Testing Count {count}
-        </button>
       </section>
 
       <div className="ticks"></div>
@@ -34,8 +29,8 @@ function Home({ user, onLogout }) {
           <svg className="icon" role="presentation" aria-hidden="true">
             <use href="/icons.svg#documentation-icon"></use>
           </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
+          <h2>If you're logged in, click on your username to customize your profile</h2>
+          <p>You can also click on the icons at the bottom to go to search for tracks/albums or find friends! </p>
           <ul>
             <li>
               <a href="https://vite.dev/" target="_blank">
@@ -116,7 +111,19 @@ function Home({ user, onLogout }) {
       <section id="signup">
         {user ? (
           <>
-            <span className="welcome">Hi, {user.username}</span>
+            <Text> Hi, {" "}
+              <Link 
+                variant = "underline"
+                href="http://localhost:5173/profile"
+                colorPalette="purple"
+              >
+                {user.username}
+              </Link>{" "}
+            </Text>
+            <Avatar.Root>
+              <Avatar.Fallback name = {user.username} />
+              <Avatar.Image src = {user.avatarUrl} alt = {user.username} />
+            </Avatar.Root>
             <button type="button" className="logout" onClick={() => { console.log("logout clicked", onLogout); onLogout?.(); }}>
               Log Out
             </button>

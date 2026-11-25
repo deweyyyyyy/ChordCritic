@@ -29,6 +29,7 @@ export default function App() {
       <Route path="/" element={<Home user={user} onLogout={handleLogout} />} />
       <Route path="/signup" element={<AuthForm key="register" mode="register" onLogin={handleLogin} />} />
       <Route path="/login" element={<AuthForm key="login" mode="login" onLogin={handleLogin} />} />
+      <Route path="/profile" element={<Home user={user} onLogout={handleLogout} />} />
     </Routes>
   );
 }
