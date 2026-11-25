@@ -36,33 +36,38 @@ app.get("/api/health", (req, res) => {
 
 app.post("/api/auth/register", async (req, res) => {
   const { username, email, password } = req.body ?? {};
-  if (!username || !email || !password)
+  if (
+    typeof username !== "string" || typeof email !== "string" || typeof password !== "string" ||
+    !username.trim() || !email.trim() || !password
+  )
     return res.status(400).json({ error: "username, email, and password are required" });
   if (password.length < 8)
     return res.status(400).json({ error: "password must be at least 8 characters" });
 
-  const password_hash = await bcrypt.hash(password, 10);
   try {
-    const sql = "insert into users (username, email, password_hash) " +
-      "values ($1, lower($2), $3) " +
+    const password_hash = await bcrypt.hash(password, 10);
+    const sql =
+      "insert into users (username, display_name, email, password_hash) " +
+      "values ($1, $1, lower($2), $3) " +
       "returning id, username, email, display_name, created_at";
-    const { rows } = await pool.query(sql, [username.trim(), email, password_hash]);
+    const { rows } = await pool.query(sql, [username.trim(), email.trim(), password_hash]);
     res.status(201).json({ token: signToken(rows[0]), user: rows[0] });
   } catch (err) {
+    if (err.code === "23505")
+      return res.status(409).json({ error: "that username or email is already taken" });
     console.error(err);
-    res.status(500).json({ error: "internal server error", detail: err.message});
-    throw err;
-  } 
+    res.status(500).json({ error: "internal server error" });
+  }
 });
 
 app.post("/api/auth/login", async (req, res) => {
   const { email, password } = req.body ?? {};
-  if (!email || !password)
+  if (typeof email !== "string" || typeof password !== "string" || !email.trim() || !password)
     return res.status(400).json({ error: "email and password are required" });
 
   const sql = "select id, username, email, display_name, password_hash, created_at " +
     "from users where email = lower($1)";
-  const { rows } = await pool.query(sql, [email]);
+  const { rows } = await pool.query(sql, [email.trim()]);
   const user = rows[0];
   if (!user || !(await bcrypt.compare(password, user.password_hash)))
     return res.status(401).json({ error: "invalid email or password" });

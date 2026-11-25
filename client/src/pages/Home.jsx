@@ -5,7 +5,7 @@ import reactLogo from '../assets/react.svg'
 import viteLogo from '../assets/vite.svg'
 import '../App.css'
 
-function Home() {
+function Home({ user, onLogout }) {
    const navigate = useNavigate()
    const [count, setCount] = useState(0)
 
@@ -113,22 +113,24 @@ function Home() {
       <div className="ticks"></div>
       <section id="spacer"></section>
 
-
       <section id="signup">
-        <button
-          type="button"
-          className="signup"
-          onClick={() => navigate("/signup")}
-        >
-          Sign Up
-        </button>
-        <button
-          type="button"
-          className="login"
-          onClick={() => navigate("/login")}
-        >
-          Log In
-        </button>
+        {user ? (
+          <>
+            <span className="welcome">Hi, {user.username}</span>
+            <button type="button" className="logout" onClick={() => { console.log("logout clicked", onLogout); onLogout?.(); }}>
+              Log Out
+            </button>
+          </>
+        ) : (
+          <>
+            <button type="button" className="signup" onClick={() => navigate("/signup")}>
+              Sign Up
+            </button>
+            <button type="button" className="login" onClick={() => navigate("/login")}>
+              Log In
+            </button>
+          </>
+        )}
       </section>
     </>
   )
